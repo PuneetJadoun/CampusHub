@@ -1,11 +1,16 @@
-import Navbar  from "../components/Header/Navbar";
+import Navbar from "../components/Header/Navbar";
+import Footer from "../components/Footer/Footer";
 
 function Welcome() {
   return (
-    <>
-       <Navbar />
-    </>
-  )
+    <div>
+
+      <Navbar />
+
+      <Footer />
+
+    </div>
+  );
 }
 
 export default Welcome;

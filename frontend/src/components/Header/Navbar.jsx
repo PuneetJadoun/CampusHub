@@ -2,6 +2,8 @@ import Logo from "./Logo";
 import { navlinks } from "../../data/navlinks";
 import AuthButton from "./AuthButtons";
 
+console.log("NAVBAR RENDERED");
+
 function Navbar() {
 
     {/* const navlinks = [
