@@ -1,11 +1,11 @@
 import './App.css'
-import Welcome from './pages/welcome.jsx'
+import Welcome from "./components/Header/Navbar";
 
 function App() {
 
   return (
     <>
-    
+       <Welcome />
     </>
   )
 }
