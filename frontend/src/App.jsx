@@ -1,6 +1,7 @@
 import './App.css'
 import Welcome from "./pages/Welcome";
 import Login from './pages/LoginPage';
+import SignUp from './pages/SignUp';
 
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
     <div>
        {/*<Welcome />*/}
         <Login />
+        {/*<SignUp />*/}
     </div>
   )
 }
