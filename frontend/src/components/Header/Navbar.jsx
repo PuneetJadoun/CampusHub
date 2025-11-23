@@ -15,7 +15,7 @@ function Navbar() {
     */}
 
   return (
-    <nav className="flex items-center justify-between px-6 py-4 border border-gray-300 mt-6 ml-16 mr-16">
+    <nav className="flex items-center justify-between px-6 py-4 mb-4 border border-gray-300 mt-6 ml-16 mr-16">
 
       {/* Logo */}
       <div className="flex items-center">
