@@ -4,7 +4,7 @@ import FooterBg from "../../assets/images/Footer.png";
 function Footer() {
   return (
     <div
-      className="mt-70 mb-1 min-h-[300px] bg-center bg-no-repeat bg-contain bg-white/70 bg-blend-overlay py-10"
+      className="border-2 mt-10 mb-2 min-h-[300px] bg-center bg-no-repeat bg-contain bg-white/70 bg-blend-overlay py-10"
       style={{
       backgroundImage: `url(${FooterBg})`,
       backgroundSize: "50%",
