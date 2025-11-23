@@ -69,7 +69,7 @@ function Signup() {
         </div>
       </div>
 
-      {/* RIGHT SIDE - Quote */}
+      {/* RIGHT SIDE-Quote */}
 
       <div className="w-1/2 flex items-center justify-center bg-gray-900 text-white px-10">
         <div className="max-w-lg">
