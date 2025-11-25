@@ -1,7 +1,7 @@
 {/*import Navbar from "../components/Header/Navbar";
 import Footer from "../components/Footer/Footer";*/}
 
-import MainLayout from "../layouts/MainLayouts";
+import MainLayout from "../layouts/MainLayout";
 import HeroSection from "../components/HeroSection";
 import HowItWorks from "../components/HowItWorks";
 import Features from "../components/Features";
