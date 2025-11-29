@@ -1,22 +1,18 @@
-import MainLayout from "../layouts/MainLayout";
+import MainLayout from '../layouts/MainLayout';
 
 function RentPage() {
   return (
     <MainLayout>
       <div className="p-8 max-w-2xl mx-auto">
-
         <h1 className="text-3xl font-bold mb-4">Rent Your Item</h1>
-        <p className="text-gray-600 mb-8">
-          Upload an item you want to rent out to students.
-        </p>
+        <p className="text-gray-600 mb-8">Upload an item you want to rent out to students.</p>
 
         {/* FORM STRUCTURE */}
         <div className="space-y-6">
-
           {/* ITEM NAME */}
           <div>
             <label className="block mb-1 font-medium">Item Name</label>
-            <input 
+            <input
               type="text"
               className="w-full border p-3 rounded"
               placeholder="e.g. Scientific Calculator"
@@ -26,7 +22,7 @@ function RentPage() {
           {/* DESCRIPTION */}
           <div>
             <label className="block mb-1 font-medium">Description</label>
-            <textarea 
+            <textarea
               className="w-full border p-3 rounded"
               placeholder="Describe the item"
               rows="4"
@@ -36,7 +32,7 @@ function RentPage() {
           {/* RENT PRICE */}
           <div>
             <label className="block mb-1 font-medium">Price (per day/week)</label>
-            <input 
+            <input
               type="number"
               className="w-full border p-3 rounded"
               placeholder="e.g. 50 / day"
@@ -62,12 +58,8 @@ function RentPage() {
           </div>
 
           {/* SUBMIT BTN */}
-          <button className="w-full bg-black text-white py-3 rounded text-lg">
-            Upload Item →
-          </button>
-
+          <button className="w-full bg-black text-white py-3 rounded text-lg">Upload Item →</button>
         </div>
-
       </div>
     </MainLayout>
   );
