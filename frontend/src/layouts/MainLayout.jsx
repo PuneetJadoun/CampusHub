@@ -1,19 +1,16 @@
-import Navbar from "../components/Header/Navbar";
-import Footer from "../components/Footer/Footer";
+import Navbar from '../components/Header/Navbar';
+import Footer from '../components/Footer/Footer';
 
+function MainLayout({ children }) {
+  return (
+    <>
+      <Navbar />
 
-function MainLayout({children}){
-    return (
-    <> 
-        <Navbar />
+      <div className="border-2 border-blue-900 px-1 py-1">{children}</div>
 
-        <div className="border-2 border-blue-900 px-1 py-1">
-            {children}
-        </div>
-
-        <Footer />
+      <Footer />
     </>
-    );
+  );
 }
 
 export default MainLayout;

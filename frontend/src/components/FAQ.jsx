@@ -8,4 +8,4 @@ function FAQ() {
   );
 }
 
-export default  FAQ;
+export default FAQ;

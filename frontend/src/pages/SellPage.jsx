@@ -1,22 +1,18 @@
-import MainLayout from "../layout/MainLayout";
+import MainLayout from '../layout/MainLayout';
 
 function SellPage() {
   return (
     <MainLayout>
       <div className="p-8 max-w-2xl mx-auto">
-
         <h1 className="text-3xl font-bold mb-4">Sell Your Item</h1>
-        <p className="text-gray-600 mb-8">
-          Add an item that you want to sell to campus students.
-        </p>
+        <p className="text-gray-600 mb-8">Add an item that you want to sell to campus students.</p>
 
         {/* FORM STRUCTURE */}
         <div className="space-y-6">
-
           {/* ITEM NAME */}
           <div>
             <label className="block mb-1 font-medium">Item Name</label>
-            <input 
+            <input
               type="text"
               className="w-full border p-3 rounded"
               placeholder="e.g. Bluetooth Headphones"
@@ -26,7 +22,7 @@ function SellPage() {
           {/* DESCRIPTION */}
           <div>
             <label className="block mb-1 font-medium">Description</label>
-            <textarea 
+            <textarea
               className="w-full border p-3 rounded"
               placeholder="Describe the item"
               rows="4"
@@ -36,11 +32,7 @@ function SellPage() {
           {/* SELL PRICE */}
           <div>
             <label className="block mb-1 font-medium">Price (one-time)</label>
-            <input 
-              type="number"
-              className="w-full border p-3 rounded"
-              placeholder="e.g. 1200"
-            />
+            <input type="number" className="w-full border p-3 rounded" placeholder="e.g. 1200" />
           </div>
 
           {/* CATEGORY */}
@@ -65,9 +57,7 @@ function SellPage() {
           <button className="w-full bg-black text-white py-3 rounded text-lg">
             List Item for Sale →
           </button>
-
         </div>
-
       </div>
     </MainLayout>
   );
