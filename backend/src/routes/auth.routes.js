@@ -3,9 +3,12 @@ import {
   registerUser,
   //loginUser,
   //verifyEmail,
-} from "../controllers/authController.js";
+} from "../controllers/auth.controllers.js";
 
+
+// this is type of virtual router
 const router = express.Router();
+
 
 router.post("/register", registerUser);
 //router.get("/verify-email", verifyEmail);
