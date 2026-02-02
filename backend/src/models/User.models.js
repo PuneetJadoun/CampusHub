@@ -26,8 +26,19 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
 
+    // This will store the OTP (6-digit string)
     verificationToken: {
       type: String,
+    },
+
+    // OTP expiry time (e.g. now + 10 minutes)
+    otpExpiresAt: {
+      type: Date,
+    },
+
+    // When OTP was last sent (for 2-min resend rule)
+    otpLastSentAt: {
+      type: Date,
     },
 
     role: {
