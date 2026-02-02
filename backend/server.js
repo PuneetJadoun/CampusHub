@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import connectDB from "./src/config/db.js";
+import connectDB from "./src/config/db.config.js";
 import authRoutes from "./src/routes/auth.routes.js";
 
 dotenv.config();          // load env variables
