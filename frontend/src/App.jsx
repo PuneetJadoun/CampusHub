@@ -7,10 +7,10 @@ import RentPage from './pages/RentPage';
 function App() {
   return (
     <div>
-      {/*<Welcome />*/}
+      <Welcome />
       {/*<Login />*/}
       {/*<LandingPage />*/}
-      <RentPage />
+      {/*<RentPage />*/}
     </div>
   );
 }
