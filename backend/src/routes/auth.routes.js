@@ -20,6 +20,11 @@ router.post("/verify-otp", verifyOtp);
 // login user
 router.post("/login", loginUser);
 
+// logout user
+router.post("/logout", logoutUser);
+;
+
+
 
 
 export default router;

@@ -3,8 +3,8 @@ import dotenv from "dotenv";
 import connectDB from "./src/config/db.config.js";
 import authRoutes from "./src/routes/auth.routes.js";
 
-// temporary check
-import sendEmail from "./src/utils/sendEmail.util.js";
+import { protect } from "./src/middleware/auth.middleware.js";
+
 
 
 dotenv.config();          // load env variables
@@ -28,14 +28,15 @@ app.listen(PORT, () => {
 });
 
 
-// temporary email test route
 
-// app.get("/test-email", async (req, res) => {
-//   await sendEmail({
-//     to: process.env.EMAIL_USER,
-//     subject: "CampusHub Test Email",
-//     html: "<h2>Email system working ✅</h2>",
+
+// temp
+
+
+
+// app.get("/api/test", protect, (req, res) => {
+//   res.json({
+//     message: "Protected route working",
+//     user: req.user,
 //   });
-
-//   res.send("Email sent");
 // });
