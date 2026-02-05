@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
 
-    // OTP expiry time (e.g. now + 10 minutes)
+    // OTP expiry time (now + 10 minutes)
     otpExpiresAt: {
       type: Date,
     },

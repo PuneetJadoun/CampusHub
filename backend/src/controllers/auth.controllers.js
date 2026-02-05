@@ -1,27 +1,28 @@
-import User from "../models/user.models.js";
+import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import sendEmail from "../utils/sendEmail.util.js";
+import jwt from "jsonwebtoken";
 
 // REGISTER WITH OTP
 export const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // 1. Validate input
+    // Validate input
     if (!name || !email || !password) {
       return res.status(400).json({
         message: "All fields are required",
       });
     }
 
-    // 2. Allow only bennett.edu.in emails
+    // Allow only bennett.edu.in emails
     if (!email.endsWith("@bennett.edu.in")) {
       return res.status(400).json({
         message: "Only bennett.edu.in email addresses are allowed",
       });
     }
 
-    // 3. Check if user already exists
+    // Check if user already exists
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({
@@ -29,18 +30,18 @@ export const registerUser = async (req, res) => {
       });
     }
 
-    // 4. Hash password
+    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // 5. Generate 6-digit OTP
+    // Generate 6-digit OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // 6. Set OTP expiry (10 minutes) and last sent time
+    // Set OTP expiry (10 minutes) and last sent time
     const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
     const otpLastSentAt = new Date();
 
-    // 7. Save user with OTP details
+    // Save user with OTP details
     await User.create({
       name,
       email,
@@ -51,7 +52,7 @@ export const registerUser = async (req, res) => {
       otpLastSentAt,
     });
 
-    // 8. Send OTP email
+    // Send OTP email
     await sendEmail({
       to: email,
       subject: "CampusHub Email Verification OTP",
@@ -63,7 +64,7 @@ export const registerUser = async (req, res) => {
       `,
     });
 
-    // 9. Response
+    // Response
     res.status(201).json({
       message: "OTP sent to your email. Please verify to continue.",
     });
@@ -75,19 +76,18 @@ export const registerUser = async (req, res) => {
 
 
 // verify otp 
-
 export const verifyOtp = async (req, res) => {
   try {
     const { email, otp } = req.body;
 
-    // 1. Validate input
+    // Validate input
     if (!email || !otp) {
       return res.status(400).json({
         message: "Email and OTP are required",
       });
     }
 
-    // 2. Find user
+    // Find user
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -96,28 +96,28 @@ export const verifyOtp = async (req, res) => {
       });
     }
 
-    // 3. Already verified?
+    // Already verified
     if (user.isVerified) {
       return res.status(400).json({
         message: "Email already verified",
       });
     }
 
-    // 4. OTP match?
+    // OTP match
     if (user.verificationToken !== otp) {
       return res.status(400).json({
         message: "Invalid OTP",
       });
     }
 
-    // 5. OTP expired?
+    // OTP expired
     if (user.otpExpiresAt < Date.now()) {
       return res.status(400).json({
         message: "OTP expired",
       });
     }
 
-    // 6. Verify user
+    // Verify user
     user.isVerified = true;
     user.verificationToken = null;
     user.otpExpiresAt = null;
@@ -169,8 +169,19 @@ export const loginUser = async (req, res) => {
       });
     }
 
+    // create jwt token
+    const token = jwt.sign(
+      {
+        id: user._id,
+        role: user.role,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
     res.json({
       message: "Login successful",
+      token,
       user: {
         id: user._id,
         name: user.name,
@@ -182,4 +193,10 @@ export const loginUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+
+// logout user
+export const logoutUser = (req, res) => {
+  res.json({ message: "Logged out successfully" });
 };
