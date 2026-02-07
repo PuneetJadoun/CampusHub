@@ -21,8 +21,7 @@ router.post("/verify-otp", verifyOtp);
 router.post("/login", loginUser);
 
 // logout user
-router.post("/logout", logoutUser);
-;
+//router.post("/logout", logoutUser);
 
 
 
