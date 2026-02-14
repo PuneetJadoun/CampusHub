@@ -1,17 +1,18 @@
 import './App.css';
-import Welcome from './pages/Welcome';
-import Login from './pages/LoginPage';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
-import RentPage from './pages/RentPage';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
 
 function App() {
   return (
-    <div>
-      <Welcome />
-      {/*<Login />*/}
-      {/*<LandingPage />*/}
-      {/*<RentPage />*/}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

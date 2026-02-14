@@ -1,79 +1,221 @@
-function Signup() {
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { register, verifyOtp } from '../api/auth';
+
+const COLLEGE_EMAIL_SUFFIX = '@bennett.edu.in';
+
+function SignupPage() {
+  const navigate = useNavigate();
+  const [step, setStep] = useState('form'); // 'form' | 'otp'
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  //register form
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  //OTP
+  const [otp, setOtp] = useState('');
+
+  const handleRegisterSubmit = async (e) => {
+    e.preventDefault(); // Prevent form from refreshing the page
+    setError('');      // Clear any previous errors
+
+    // Validate inputs
+    if (!name.trim() || !email.trim() || !password || !confirmPassword) {
+      setError('All fields are required.');
+      return;
+    }
+
+    // basic client-side validation to ensure only college emails are used for registration
+    if (!email.trim().toLowerCase().endsWith(COLLEGE_EMAIL_SUFFIX)) {
+      setError('Only college email (@bennett.edu.in) is allowed.');
+      return;
+    }
+     
+    // Validate password length and match
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters.');
+      return;
+    }
+    
+    // Check if passwords match
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+    
+    // Call the register API
+    setLoading(true);
+    const { ok, data } = await register(name.trim(), email.trim().toLowerCase(), password);
+    setLoading(false);  // Reset loading state after API call
+     
+
+    // Handle the response from the API
+    if (ok) {
+      setStep('otp');
+      setError('');
+    } else {
+      setError(data?.message || 'Registration failed.');
+    }
+  };
+  
+  // Handle OTP submission
+  const handleOtpSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (!otp.trim()) {
+      setError('Enter the 6-digit OTP.');
+      return;
+    }
+
+    setLoading(true);
+    const { ok, data } = await verifyOtp(email.trim().toLowerCase(), otp.trim());
+    setLoading(false);
+
+    if (ok) {
+      navigate('/login', { state: { message: 'Email verified. You can sign in now.' } });
+    } else {
+      setError(data?.message || 'Verification failed.');
+    }
+  };
+
   return (
     <div className="min-h-screen flex">
-      {/* LEFT SIDE - Signup Form */}
-
       <div className="w-1/2 flex items-center justify-center bg-white">
         <div className="w-full max-w-md p-8">
-          <h1 className="text-3xl font-bold mb-2">Create your account</h1>
-          <p className="text-gray-600 mb-6">Sign up to get started.</p>
+          {step === 'form' ? (
+            <>
+              <h1 className="text-3xl font-bold mb-2">Create your account</h1>
+              <p className="text-gray-600 mb-6">Sign up with your college email. We’ll send an OTP to verify.</p>
 
-          {/* GOOGLE SIGNUP BUTTON */}
+              {error && (
+                <div className="mb-4 p-3 rounded bg-red-50 text-red-700 text-sm">{error}</div>
+              )}
 
-          <button className="w-full border py-3 rounded mb-6">Continue with Google</button>
+              <form onSubmit={handleRegisterSubmit} className="space-y-4">
+                <div>
+                  <label className="block mb-1 font-medium">Name</label>
+                  <input
+                    type="text"
+                    placeholder="Your name"
+                    className="w-full border p-3 rounded"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    disabled={loading}
+                  />
+                </div>
 
-          {/* OR DIVIDER */}
+                <div>
+                  <label className="block mb-1 font-medium">College email</label>
+                  <input
+                    type="email"
+                    placeholder={`you${COLLEGE_EMAIL_SUFFIX}`}
+                    className="w-full border p-3 rounded"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={loading}
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Only @bennett.edu.in addresses allowed.</p>
+                </div>
 
-          <div className="flex items-center mb-6">
-            <div className="grow h-px bg-gray-300"></div>
-            <span className="mx-3 text-gray-500">or</span>
-            <div className="grow h-px bg-gray-300"></div>
-          </div>
+                <div>
+                  <label className="block mb-1 font-medium">Password</label>
+                  <input
+                    type="password"
+                    placeholder="Create password (min 6 characters)"
+                    className="w-full border p-3 rounded"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    disabled={loading}
+                  />
+                </div>
 
-          {/* EMAIL INPUT */}
+                <div>
+                  <label className="block mb-1 font-medium">Confirm password</label>
+                  <input
+                    type="password"
+                    placeholder="Re-enter password"
+                    className="w-full border p-3 rounded"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    disabled={loading}
+                  />
+                </div>
 
-          <div className="mb-4">
-            <label className="block mb-1 font-medium">Email</label>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="w-full border p-3 rounded"
-            />
-          </div>
+                <button
+                  type="submit"
+                  className="w-full bg-black text-white py-3 rounded disabled:opacity-50"
+                  disabled={loading}
+                >
+                  {loading ? 'Sending OTP…' : 'Create account →'}
+                </button>
+              </form>
+            </>
+          ) : (
+            <>
+              <h1 className="text-3xl font-bold mb-2">Verify your email</h1>
+              <p className="text-gray-600 mb-6">
+                We sent a 6-digit code to <strong>{email}</strong>. Enter it below.
+              </p>
 
-          {/* PASSWORD INPUT */}
-          <div className="mb-4">
-            <label className="block mb-1 font-medium">Password</label>
-            <input
-              type="password"
-              placeholder="Create password"
-              className="w-full border p-3 rounded"
-            />
-          </div>
+              {error && (
+                <div className="mb-4 p-3 rounded bg-red-50 text-red-700 text-sm">{error}</div>
+              )}
 
-          {/* CONFIRM PASSWORD */}
-          <div className="mb-6">
-            <label className="block mb-1 font-medium">Confirm Password</label>
-            <input
-              type="password"
-              placeholder="Re-enter password"
-              className="w-full border p-3 rounded"
-            />
-          </div>
+              <form onSubmit={handleOtpSubmit} className="space-y-4">
+                <div>
+                  <label className="block mb-1 font-medium">OTP</label>
+                  <input
+                    type="text"
+                    placeholder="000000"
+                    className="w-full border p-3 rounded text-center text-lg tracking-widest"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                    maxLength={6}
+                    disabled={loading}
+                  />
+                </div>
 
-          {/* SIGNUP BUTTON */}
-          <button className="w-full bg-black text-white py-3 rounded">Create Account →</button>
+                <button
+                  type="submit"
+                  className="w-full bg-black text-white py-3 rounded disabled:opacity-50"
+                  disabled={loading}
+                >
+                  {loading ? 'Verifying…' : 'Verify & continue'}
+                </button>
+              </form>
+
+              <button
+                type="button"
+                className="w-full mt-2 text-sm text-gray-600 underline"
+                onClick={() => setStep('form')}
+                disabled={loading}
+              >
+                ← Back to signup
+              </button>
+            </>
+          )}
 
           <p className="text-sm text-center mt-4">
             Already have an account?{' '}
-            <a href="/login" className="underline">
+            <Link to="/login" className="underline">
               Login
-            </a>
+            </Link>
           </p>
         </div>
       </div>
 
-      {/* RIGHT SIDE-Quote */}
-
       <div className="w-1/2 flex items-center justify-center bg-gray-900 text-white px-10">
         <div className="max-w-lg">
           <div className="text-6xl mb-4">❞</div>
-
           <p className="text-2xl font-light leading-relaxed mb-6">
             "Sell what you don’t need, rent what <br />
             you do — all safely within your campus community.”
           </p>
-
           <div className="flex items-center gap-3">
             <div>
               <p className="font-semibold">Puneet Kumar Singh</p>
@@ -86,4 +228,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default SignupPage;

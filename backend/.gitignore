@@ -11,3 +11,7 @@ npm-debug.log*
 
 # OS / Editor
 .DS_Store
+
+
+#left file
+left.txt

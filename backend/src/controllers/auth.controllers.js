@@ -64,12 +64,18 @@ export const registerUser = async (req, res) => {
       `,
     });
 
+    // In development: log OTP in terminal (college mail often blocks external senders)
+    if (process.env.NODE_ENV !== "production") {
+      console.log(`[Dev] OTP for ${email} → ${otp}`);
+    }
+
     // Response
     res.status(201).json({
       message: "OTP sent to your email. Please verify to continue.",
     });
 
   } catch (error) {
+    console.error("[Auth] Register error:", error.message);
     res.status(500).json({ message: error.message });
   }
 };
