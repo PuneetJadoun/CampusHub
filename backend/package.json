@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "start": "node server.js",
-    "test:email": "node scripts/test-email.js"
+    "test:email": "node scripts/test-email.js",
+    "dev": "node server.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
