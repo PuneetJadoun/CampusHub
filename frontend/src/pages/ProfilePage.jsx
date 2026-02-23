@@ -1,59 +1,50 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { getMe, updateProfile } from "../api/user";
 
 function Profile() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // fetch logged user when page loads
   useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      window.location.href = "/login";
+      return;
+    }
+
     fetchUser();
   }, []);
 
   const fetchUser = async () => {
-    try {
-      const token = localStorage.getItem("token");
-
-      const res = await axios.get(
-        "http://localhost:5000/api/users/me",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      setUser(res.data);
-    } catch (err) {
-      console.log("Error fetching user:", err);
+    const { ok, data } = await getMe();
+    setLoading(false);
+    if
+      (ok){ setUser(data) 
+    }
+    else{
+      // user doesn't exist or token is invalid
+      localStorage.removeItem("token");
+      window.location.href = "/login";
     }
   };
 
-  // update profile
   const handleUpdate = async () => {
-    try {
-      const token = localStorage.getItem("token");
+    if (!user.name.trim()) {
+      alert("Name cannot be empty");
+      return;
+    }
 
-      await axios.put(
-        "http://localhost:5000/api/users/update",
-        { name: user.name },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+    const { ok } = await updateProfile(user.name);
 
+    if (ok) {
       alert("Profile updated");
-
-      // refetch user after update
       fetchUser();
-
-    } catch (err) {
-      console.log("Update error:", err);
     }
   };
 
-  if (!user) return <h2>Loading...</h2>;
+  
+  if(loading)return <h2>Loading...</h2>;
 
   return (
     <div style={{ padding: "20px" }}>
