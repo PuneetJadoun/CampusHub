@@ -27,7 +27,7 @@ User logs in → profile loads → update works.
 
 ======================================
 PHASE 2 — ITEM CORE SYSTEM
-Days 4–8 (MOST IMPORTANT)
+Days 4–8 (MOST IMPORTANT)Co
 ======================================
 Backend:
 - Item model

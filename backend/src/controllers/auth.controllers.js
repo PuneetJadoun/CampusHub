@@ -64,7 +64,7 @@ export const registerUser = async (req, res) => {
       `,
     });
 
-    // In development: log OTP in terminal (college mail often blocks external senders)
+    // In development: log OTP in terminal 
     if (process.env.NODE_ENV !== "production") {
       console.log(`[Dev] OTP for ${email} → ${otp}`);
     }
