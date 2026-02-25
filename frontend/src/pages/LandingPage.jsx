@@ -3,6 +3,7 @@ import MainLayout from '../layouts/MainLayout';
 function LandingPage() {
   return (
     <MainLayout>
+
       <div className="p-8">
         {/* GREETING SECTION */}
         <h1 className="text-3xl font-bold mb-2">Welcome Back 👋</h1>
@@ -36,6 +37,7 @@ function LandingPage() {
           ))}
         </div>
       </div>
+      
     </MainLayout>
   );
 }

@@ -1,7 +1,5 @@
 import User from '../models/user.model.js';
 
-
-
 // user kii personal info 
 export const getMe = async (req, res)=>{
     try{
